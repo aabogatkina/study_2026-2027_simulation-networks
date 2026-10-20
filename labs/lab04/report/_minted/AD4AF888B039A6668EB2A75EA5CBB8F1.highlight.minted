@@ -1,0 +1,53 @@
+\begin{MintedVerbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{c+ch}{\PYGZsh{}!/usr/bin/env python}
+
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{Simple experiment.}
+\PYG{l+s+sd}{Output: ping.dat}
+\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{mininet.net}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Mininet}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{mininet.node}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{Controller}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{mininet.cli}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{CLI}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{mininet.log}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{setLogLevel}\PYG{p}{,} \PYG{n}{info}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{time}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{emptyNet}\PYG{p}{():}
+
+    \PYG{l+s+s2}{\PYGZdq{}Create an empty network and add nodes to it.\PYGZdq{}}
+
+    \PYG{n}{net} \PYG{o}{=} \PYG{n}{Mininet}\PYG{p}{(} \PYG{n}{controller}\PYG{o}{=}\PYG{n}{Controller}\PYG{p}{,} \PYG{n}{waitConnected}\PYG{o}{=}\PYG{k+kc}{True} \PYG{p}{)}
+
+    \PYG{n}{info}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}*** Adding controller}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{)}
+    \PYG{n}{net}\PYG{o}{.}\PYG{n}{addController}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}c0\PYGZsq{}} \PYG{p}{)}
+
+    \PYG{n}{info}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}*** Adding hosts}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{)}
+    \PYG{n}{h1} \PYG{o}{=} \PYG{n}{net}\PYG{o}{.}\PYG{n}{addHost}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}h1\PYGZsq{}}\PYG{p}{,} \PYG{n}{ip}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}10.0.0.1\PYGZsq{}} \PYG{p}{)}
+    \PYG{n}{h2} \PYG{o}{=} \PYG{n}{net}\PYG{o}{.}\PYG{n}{addHost}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}h2\PYGZsq{}}\PYG{p}{,} \PYG{n}{ip}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}10.0.0.2\PYGZsq{}} \PYG{p}{)}
+
+    \PYG{n}{info}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}*** Adding switch}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{)}
+    \PYG{n}{s1} \PYG{o}{=} \PYG{n}{net}\PYG{o}{.}\PYG{n}{addSwitch}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}s1\PYGZsq{}} \PYG{p}{)}
+
+    \PYG{n}{info}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}*** Creating links}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}} \PYG{p}{)}
+    \PYG{n}{net}\PYG{o}{.}\PYG{n}{addLink}\PYG{p}{(} \PYG{n}{h1}\PYG{p}{,} \PYG{n}{s1} \PYG{p}{)}
+    \PYG{n}{net}\PYG{o}{.}\PYG{n}{addLink}\PYG{p}{(} \PYG{n}{h2}\PYG{p}{,} \PYG{n}{s1} \PYG{p}{)}
+
+    \PYG{n}{info}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}*** Starting network}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{net}\PYG{o}{.}\PYG{n}{start}\PYG{p}{()}
+
+    \PYG{n}{info}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}*** Set delay}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{h1}\PYG{o}{.}\PYG{n}{cmdPrint}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}tc qdisc add dev h1\PYGZhy{}eth0 root netem delay 100ms\PYGZsq{}} \PYG{p}{)}
+    \PYG{n}{h2}\PYG{o}{.}\PYG{n}{cmdPrint}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}tc qdisc add dev h2\PYGZhy{}eth0 root netem delay 100ms\PYGZsq{}} \PYG{p}{)}
+
+    \PYG{n}{time}\PYG{o}{.}\PYG{n}{sleep}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)} \PYG{c+c1}{\PYGZsh{} Wait 10 seconds}
+
+    \PYG{n}{info}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}*** Ping}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{h1}\PYG{o}{.}\PYG{n}{cmdPrint}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}ping \PYGZhy{}c 100\PYGZsq{}}\PYG{p}{,} \PYG{n}{h2}\PYG{o}{.}\PYG{n}{IP}\PYG{p}{(),} \PYG{l+s+s1}{\PYGZsq{}| grep \PYGZdq{}time=\PYGZdq{} | awk }\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+s1}{\PYGZob{}print \PYGZdl{}5, \PYGZdl{}7\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+s1}{ | sed \PYGZhy{}e }\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+s1}{s/time=//g}\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+s1}{ \PYGZhy{}e }\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+s1}{s/ic\PYGZgt{}}
+
+    \PYG{n}{info}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}*** Stopping network\PYGZsq{}} \PYG{p}{)}
+    \PYG{n}{net}\PYG{o}{.}\PYG{n}{stop}\PYG{p}{()}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+   \PYG{n}{setLogLevel}\PYG{p}{(} \PYG{l+s+s1}{\PYGZsq{}info\PYGZsq{}} \PYG{p}{)}
+   \PYG{n}{emptyNet}\PYG{p}{()}
+\end{MintedVerbatim}

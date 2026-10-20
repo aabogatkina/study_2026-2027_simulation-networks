@@ -1,0 +1,10 @@
+\begin{MintedVerbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{c+ch}{\PYGZsh{}!/usr/bin/gnuplot \PYGZhy{}\PYGZhy{}persist}
+
+\PYG{n+nb}{set}\PYG{+w}{ }terminal\PYG{+w}{ }png\PYG{+w}{ }crop
+\PYG{n+nb}{set}\PYG{+w}{ }output\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}ping.png\PYGZsq{}}
+\PYG{n+nb}{set}\PYG{+w}{ }xlabel\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Sequence number\PYGZdq{}}
+\PYG{n+nb}{set}\PYG{+w}{ }ylabel\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Delay (ms)\PYGZdq{}}
+\PYG{n+nb}{set}\PYG{+w}{ }grid
+plot\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}ping.dat\PYGZdq{}}\PYG{+w}{ }with\PYG{+w}{ }lines
+\end{MintedVerbatim}

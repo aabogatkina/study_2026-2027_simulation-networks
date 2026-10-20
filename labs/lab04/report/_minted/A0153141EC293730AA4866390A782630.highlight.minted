@@ -1,0 +1,13 @@
+\begin{MintedVerbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+all:\PYG{+w}{ }ping.dat\PYG{+w}{ }ping.png
+
+ping.dat:
+\PYG{+w}{        }sudo\PYG{+w}{ }python\PYG{+w}{ }lab\PYGZus{}netem\PYGZus{}i.py
+\PYG{+w}{        }sudo\PYG{+w}{ }chown\PYG{+w}{ }mininet:mininet\PYG{+w}{ }ping.dat
+
+ping.png:\PYG{+w}{ }ping.dat
+\PYG{+w}{        }./ping\PYGZus{}plot
+
+clean:
+\PYG{+w}{        }\PYGZhy{}rm\PYG{+w}{ }\PYGZhy{}f\PYG{+w}{ }*.dat\PYG{+w}{ }*.png
+\end{MintedVerbatim}
